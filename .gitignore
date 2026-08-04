@@ -1,0 +1,27 @@
+.env
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Dados pessoais e segredos
+private/database/*
+!private/database/.gitkeep
+private/anexos/*
+!private/anexos/.gitkeep
+app/hesk_settings.inc.php
+
+# Cache e exportações geradas
+app/cache2/*
+!app/cache2/index.htm
+app/cache/cache bkp/
+app/cache/*.zip
+app/cache2/*.zip
+
+# Backups que não devem entrar no repositório
+*.sql
+*.sql.zip
+*.bak
+*.old
+*.orig
+ouvidoria.zip

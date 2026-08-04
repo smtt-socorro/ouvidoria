@@ -1,0 +1,14 @@
+.navbar__logo, .header__logo {
+    background-image: url(https://pnmmapwylqpxoylfjsbi.supabase.co/storage/v1/object/public/midias/assets/smttlogonovo.png);
+    background-repeat: no-repeat;
+    background-size: 90px;
+    width: 90px;
+    height: 90px;
+    margin-top: 20px;
+}
+
+.footer {
+    padding: 10px 16px 16px;
+    font-size: 16px;
+    display: none;
+}
