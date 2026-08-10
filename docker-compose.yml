@@ -37,6 +37,7 @@ services:
       - "${APP_PORT:-8080}:80"
     volumes:
       - ./private/anexos:/var/www/html/anexos
+      - ./private/config:/var/www/hesk-config
 
 volumes:
   ouvidoria_db:

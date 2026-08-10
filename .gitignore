@@ -25,3 +25,7 @@ app/cache2/*.zip
 *.old
 *.orig
 ouvidoria.zip
+
+# Configuração persistente do HESK
+private/config/*
+!private/config/.gitkeep
