@@ -1,0 +1,72 @@
+services:
+  db:
+    image: mariadb:11.8
+    container_name: ouvidoria-db
+    restart: unless-stopped
+
+    environment:
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      TZ: America/Maceio
+
+    volumes:
+      - ouvidoria_db:/var/lib/mysql
+      - ./private/database:/docker-entrypoint-initdb.d:ro
+
+    healthcheck:
+      test: ["CMD-SHELL", "healthcheck.sh --connect --innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+
+    networks:
+      - ouvidoria_internal
+
+
+  app:
+    build: .
+    container_name: ouvidoria-app
+    restart: unless-stopped
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+    environment:
+      APP_URL: ${APP_URL}
+      FORCE_SSL: ${FORCE_SSL:-1}
+      HESK_DEBUG: ${HESK_DEBUG:-0}
+      HESK_URL_KEY: ${HESK_URL_KEY}
+
+      DB_HOST: db
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+      OUVIDORIA_API_TOKEN: ${OUVIDORIA_API_TOKEN:-}
+
+    expose:
+      - "80"
+
+    volumes:
+      - ./private/anexos:/var/www/html/anexos
+      - ./private/config:/var/www/hesk-config
+
+    networks:
+      - ouvidoria_internal
+      - caddy_network
+
+
+volumes:
+  ouvidoria_db:
+
+
+networks:
+  ouvidoria_internal:
+    driver: bridge
+
+  caddy_network:
+    external: true
+    name: REDE_REAL_DO_CADDY
