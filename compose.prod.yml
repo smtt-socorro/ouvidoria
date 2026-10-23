@@ -69,4 +69,4 @@ networks:
 
   caddy_network:
     external: true
-    name: REDE_REAL_DO_CADDY
+    name: pedalasocorro_default
